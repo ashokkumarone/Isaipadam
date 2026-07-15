@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --app-bg: #090909;
+  --header-bg: #0f0f0f;
+  --card-bg: #121212;
+  --card-border: #1f1f1f;
+  --text-primary: #ffffff;
+  --text-secondary: #e4e4e7;
+  --text-muted: #a1a1aa;
+  --sidebar-bg: #0c0c0e;
+  --sidebar-hover: #1c1c1f;
+  --input-bg: #141416;
+  --input-border: #232323;
+  --active-bg: #1a1a1e;
+  --highlight-color: #00e676;
+  --highlight-hover: #12f085;
+  --highlight-bg-alpha: rgba(0, 230, 118, 0.1);
+  --highlight-border-alpha: rgba(0, 230, 118, 0.2);
+}
+
+.light-mode {
+  --app-bg: #f4f7fa;
+  --header-bg: #ffffff;
+  --card-bg: #ffffff;
+  --card-border: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #1e293b;
+  --text-muted: #475569;
+  --sidebar-bg: #e0f2fe;
+  --sidebar-hover: #bae6fd;
+  --input-bg: #ffffff;
+  --input-border: #0ea5e9;
+  --active-bg: #7dd3fc;
+  --highlight-color: #2563eb;
+  --highlight-hover: #1d4ed8;
+  --highlight-bg-alpha: rgba(37, 99, 235, 0.08);
+  --highlight-border-alpha: rgba(37, 99, 235, 0.2);
+}
+
+html, body {
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-theme-bg: var(--app-bg);
+  --color-theme-header: var(--header-bg);
+  --color-theme-card: var(--card-bg);
+  --color-theme-border: var(--card-border);
+  --color-theme-text: var(--text-primary);
+  --color-theme-text-secondary: var(--text-secondary);
+  --color-theme-text-muted: var(--text-muted);
+  --color-theme-sidebar: var(--sidebar-bg);
+  --color-theme-sidebar-hover: var(--sidebar-hover);
+  --color-theme-input: var(--input-bg);
+  --color-theme-input-border: var(--input-border);
+  --color-theme-active-bg: var(--active-bg);
+  --color-theme-highlight: var(--highlight-color);
+  --color-theme-highlight-hover: var(--highlight-hover);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Spin animation for audio vinyl */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}

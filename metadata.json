@@ -1,0 +1,8 @@
+{
+  "name": "Remix:Isaipadam",
+  "description": "A unified platform combining the best of YouTube and YouTube Music with seamless switching between Video and Audio modes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
