@@ -266,7 +266,7 @@ export default function AudioPlayerUI({
                           src={`https://img.youtube.com/vi/${upTrack.id}/hqdefault.jpg`}
                           alt={upTrack.title}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover rounded-xl"
+                          className="absolute inset-0 w-full h-full object-cover rounded-xl z-10"
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />
                         <span className="absolute inset-0 flex items-center justify-center bg-black/10 text-white font-bold text-xs select-none">
@@ -320,7 +320,7 @@ export default function AudioPlayerUI({
                         src={`https://img.youtube.com/vi/${track.id}/hqdefault.jpg`}
                         alt={track.title}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover rounded-full"
+                        className="absolute inset-0 w-full h-full object-cover rounded-full z-10"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                         }}

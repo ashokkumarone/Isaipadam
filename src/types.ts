@@ -18,7 +18,7 @@ export interface Track {
   artist: string;
   thumbnailUrl?: string;
   duration: string;
-  category: 'music' | 'video' | 'live' | 'podcast' | 'sports' | 'shopping';
+  category: string;
   views: string;
   likes: string;
   channel: string;

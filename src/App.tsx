@@ -47,7 +47,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [audioSubTab, setAudioSubTab] = useState<'music' | 'podcasts' | 'library'>('music');
   const [downloadsSubTab, setDownloadsSubTab] = useState<'video' | 'audio'>('video');
-  const [selectedTrackId, setSelectedTrackId] = useState<string>('37_d0G8AClA'); // Why This Kolaveri Di by default
+  const [selectedTrackId, setSelectedTrackId] = useState<string>('JGwWNGJdvx8'); // Shape of You by default
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(null);
@@ -64,14 +64,14 @@ export default function App() {
 
   const runVoiceSimulation = () => {
     const popularSearches = [
-      'A.R. Rahman Hits',
-      'Anirudh Hits',
-      'Yuvan Shankar Raja Hits',
-      'Kolaveri Di',
-      'Enjoy Enjaami',
       'Shape of You',
-      'Interstellar Theme',
-      'Coldplay Music'
+      'Blinding Lights',
+      'Justin Bieber Stay',
+      'Harry Styles',
+      'Miley Cyrus Flowers',
+      'Coldplay Music',
+      'Adele Easy On Me',
+      'Lofi hip hop beats'
     ];
     const randomQuery = popularSearches[Math.floor(Math.random() * popularSearches.length)];
     
@@ -355,7 +355,7 @@ export default function App() {
 
   // Search and filter tracks based on tab, playlist, selectedTag, and search queries
   const filteredTracks = useMemo(() => {
-    let list = CURATED_TRACKS;
+    let list = [...CURATED_TRACKS];
 
     // Filter by Custom Playlist
     if (activePlaylist) {
@@ -391,12 +391,8 @@ export default function App() {
     if (selectedTag !== 'All') {
       if (selectedTag === 'Trending') {
         list = list.filter((t) => t.category === 'music' || t.views.includes('B') || t.views.includes('M'));
-      } else if (selectedTag === 'Sports') {
-        list = list.filter((t) => t.category === 'sports');
-      } else if (selectedTag === 'Shopping') {
-        list = list.filter((t) => t.category === 'shopping');
-      } else if (selectedTag === 'Podcasts') {
-        list = list.filter((t) => t.category === 'podcast');
+      } else if (selectedTag === 'Music') {
+        list = list.filter((t) => t.category === 'music');
       }
     }
 
@@ -497,21 +493,25 @@ export default function App() {
   };
 
   const handleNextTrack = () => {
-    const currentIndex = CURATED_TRACKS.findIndex((t) => t.id === selectedTrackId);
-    if (currentIndex !== -1 && currentIndex < CURATED_TRACKS.length - 1) {
-      setSelectedTrackId(CURATED_TRACKS[currentIndex + 1].id);
+    const validTracks = CURATED_TRACKS;
+    if (validTracks.length === 0) return;
+    const currentIndex = validTracks.findIndex((t) => t.id === selectedTrackId);
+    if (currentIndex !== -1 && currentIndex < validTracks.length - 1) {
+      setSelectedTrackId(validTracks[currentIndex + 1].id);
     } else {
-      setSelectedTrackId(CURATED_TRACKS[0].id); // Loop back
+      setSelectedTrackId(validTracks[0].id); // Loop back
     }
     setIsPlaying(true);
   };
 
   const handlePrevTrack = () => {
-    const currentIndex = CURATED_TRACKS.findIndex((t) => t.id === selectedTrackId);
+    const validTracks = CURATED_TRACKS;
+    if (validTracks.length === 0) return;
+    const currentIndex = validTracks.findIndex((t) => t.id === selectedTrackId);
     if (currentIndex > 0) {
-      setSelectedTrackId(CURATED_TRACKS[currentIndex - 1].id);
+      setSelectedTrackId(validTracks[currentIndex - 1].id);
     } else {
-      setSelectedTrackId(CURATED_TRACKS[CURATED_TRACKS.length - 1].id); // Go to end
+      setSelectedTrackId(validTracks[validTracks.length - 1].id); // Go to end
     }
     setIsPlaying(true);
   };
@@ -1288,6 +1288,17 @@ export default function App() {
                                 alt={track.title}
                                 className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                 referrerPolicy="no-referrer"
+                                onError={(e) => {
+                                  const target = e.currentTarget;
+                                  const attempt = parseInt(target.getAttribute('data-attempt') || '0', 10);
+                                  if (attempt === 0) {
+                                    target.setAttribute('data-attempt', '1');
+                                    target.src = `https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`;
+                                  } else if (attempt === 1) {
+                                    target.setAttribute('data-attempt', '2');
+                                    target.src = `https://img.youtube.com/vi/${track.id}/hqdefault.jpg`;
+                                  }
+                                }}
                               />
                               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                                 <span className="text-white text-lg">▶️</span>
@@ -1346,7 +1357,7 @@ export default function App() {
                       </div>
                     ) : (
                       <div className="space-y-2.5">
-                        {CURATED_TRACKS.filter((t) => downloadedAudios.includes(t.id)).map((track, index) => (
+                         {CURATED_TRACKS.filter((t) => downloadedAudios.includes(t.id)).map((track, index) => (
                           <div
                             key={track.id}
                             className="flex items-center justify-between p-3 bg-theme-sidebar hover:bg-theme-sidebar-hover border border-theme-border rounded-2xl group transition"
@@ -1370,6 +1381,17 @@ export default function App() {
                                   alt={track.title}
                                   className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                   referrerPolicy="no-referrer"
+                                  onError={(e) => {
+                                    const target = e.currentTarget;
+                                    const attempt = parseInt(target.getAttribute('data-attempt') || '0', 10);
+                                    if (attempt === 0) {
+                                      target.setAttribute('data-attempt', '1');
+                                      target.src = `https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`;
+                                    } else if (attempt === 1) {
+                                      target.setAttribute('data-attempt', '2');
+                                      target.src = `https://img.youtube.com/vi/${track.id}/hqdefault.jpg`;
+                                    }
+                                  }}
                                 />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                                   <span className="text-white text-xs">▶️</span>
@@ -1466,7 +1488,7 @@ export default function App() {
                                   src={`https://img.youtube.com/vi/${activeTrack.id}/hqdefault.jpg`}
                                   alt={activeTrack.title}
                                   referrerPolicy="no-referrer"
-                                  className="w-full h-full object-cover rounded-full"
+                                  className="absolute inset-0 w-full h-full object-cover rounded-full z-10"
                                   onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                   }}
@@ -1965,10 +1987,14 @@ export default function App() {
                           >
                             <div className="flex items-center gap-3 min-w-0 flex-1">
                               <div
-                                className="w-11 h-11 rounded-xl flex items-center justify-center font-black text-[#0f0f0f] text-sm shrink-0 relative overflow-hidden border border-theme-border"
-                                style={{ background: item.audioBgGradient }}
+                                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 relative overflow-hidden border border-theme-border"
                               >
-                                {item.title.charAt(0)}
+                                <img
+                                  src={`https://img.youtube.com/vi/${item.id}/mqdefault.jpg`}
+                                  alt={item.title}
+                                  className="absolute inset-0 w-full h-full object-cover"
+                                  referrerPolicy="no-referrer"
+                                />
                                 {isActive && isPlaying && (
                                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl">
                                     <div className="flex items-end gap-0.5 h-3">
@@ -2163,28 +2189,6 @@ export default function App() {
                             );
                           })}
                         </div>
-                      </div>
-
-                      {/* Dynamic Pro Promotional Claim Banner */}
-                      <div className="p-4.5 rounded-3xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 dark:from-emerald-950/40 dark:to-teal-900/45 shadow-xl flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3.5 min-w-0">
-                          <div className="w-10 h-10 rounded-2xl bg-[#00e676] flex items-center justify-center shrink-0 shadow-lg shadow-[#00e676]/10 text-black text-lg font-black select-none">
-                            👑
-                          </div>
-                          <div className="min-w-0">
-                            <h4 className="text-xs font-black text-theme-text flex items-center gap-1.5">
-                              <span>PRO at just $4.99 for 30 days</span>
-                              <span className="text-[8px] bg-[#00e676]/10 text-[#00e676] border border-[#00e676]/20 px-1.5 py-0.2 rounded font-black">LIMITED</span>
-                            </h4>
-                            <p className="text-[10px] text-theme-text-secondary font-semibold mt-0.5 truncate">Enjoy ad-free streaming, high bit-rate sound, and background listening.</p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => console.log("TuneTube PRO Activation flow opened!")}
-                          className="bg-[#00e676] hover:bg-[#12f085] text-black font-black text-[10px] px-4.5 py-2 rounded-full cursor-pointer transition whitespace-nowrap active:scale-95 shadow-md shadow-[#00e676]/10"
-                        >
-                          Claim Now
-                        </button>
                       </div>
 
                       {/* Section 4: Made For Your Moods */}
@@ -2386,7 +2390,7 @@ export default function App() {
 
                 {/* YouTube Filter Pills / Tags */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-                  {['All', 'Trending', 'Sports', 'Shopping', 'Podcasts'].map((tag) => {
+                  {['All', 'Music', 'Trending'].map((tag) => {
                     const isSelected = selectedTag === tag;
                     return (
                       <button
@@ -2429,6 +2433,17 @@ export default function App() {
                             alt={item.title}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500"
                             referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              const attempt = parseInt(target.getAttribute('data-attempt') || '0', 10);
+                              if (attempt === 0) {
+                                target.setAttribute('data-attempt', '1');
+                                target.src = `https://i.ytimg.com/vi/${item.id}/mqdefault.jpg`;
+                              } else if (attempt === 1) {
+                                target.setAttribute('data-attempt', '2');
+                                target.src = `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`;
+                              }
+                            }}
                           />
 
                           {/* Live Indicator (No Music/Podcast mention) */}
@@ -2510,10 +2525,14 @@ export default function App() {
 
             <div className="flex items-center gap-3 min-w-0 flex-1 sm:flex-none sm:max-w-xs">
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white shrink-0 text-sm border border-theme-border"
-                style={{ background: activeTrack.audioBgGradient }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 relative overflow-hidden border border-theme-border"
               >
-                {activeTrack.title.charAt(0)}
+                <img
+                  src={`https://img.youtube.com/vi/${activeTrack.id}/mqdefault.jpg`}
+                  alt={activeTrack.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div className="min-w-0">
                 <h4 className="text-xs font-bold text-theme-text truncate">{activeTrack.title}</h4>
