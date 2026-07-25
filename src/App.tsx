@@ -393,6 +393,18 @@ export default function App() {
         list = list.filter((t) => t.category === 'music' || t.views.includes('B') || t.views.includes('M'));
       } else if (selectedTag === 'Music') {
         list = list.filter((t) => t.category === 'music');
+      } else if (selectedTag === 'Food') {
+        list = list.filter((t) => t.category === 'food');
+      } else if (selectedTag === 'Sports') {
+        list = list.filter((t) => t.category === 'sports');
+      } else if (selectedTag === 'Vlogs') {
+        list = list.filter((t) => t.category === 'vlogs');
+      } else if (selectedTag === 'Trailers') {
+        list = list.filter((t) => t.category === 'trailers');
+      } else if (selectedTag === 'Reviews') {
+        list = list.filter((t) => t.category === 'reviews');
+      } else if (selectedTag === 'Podcasts') {
+        list = list.filter((t) => t.category === 'podcast');
       }
     }
 
@@ -2390,7 +2402,7 @@ export default function App() {
 
                 {/* YouTube Filter Pills / Tags */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-                  {['All', 'Music', 'Trending'].map((tag) => {
+                  {['All', 'Music', 'Food', 'Sports', 'Vlogs', 'Trailers', 'Reviews', 'Podcasts', 'Trending'].map((tag) => {
                     const isSelected = selectedTag === tag;
                     return (
                       <button
